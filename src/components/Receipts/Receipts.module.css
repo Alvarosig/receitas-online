@@ -1,0 +1,31 @@
+.receipts {
+  max-width: 600px;
+  width: 600;
+  border-radius: 8px;
+  background-color: var(--yellow);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem
+}
+
+.receipts div {
+  margin: 2rem;
+}
+
+.receipts div h2 {
+  margin-bottom: 1rem;
+}
+
+img {
+  width: 24px;
+  height: 24px;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-weight: 400;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
