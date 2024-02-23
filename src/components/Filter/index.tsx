@@ -15,15 +15,21 @@ interface FilterProps {
   setRecipes: Dispatch<SetStateAction<Recipes[]>>
 }
 
-export function Filter({ recipes, setRecipes }: FilterProps) {
+export function Filter({ setRecipes }: FilterProps) {
   const [semLeite, setSemLeite] = useState(false)
   const [semGluten, setSemGluten] = useState(false)
   const [todas, setTodas] = useState(true)
 
-  const localStorageData = localStorage.getItem('receitas')
+  function handleFilter() {
+    const recipes = JSON.parse(localStorage.getItem('receitas') ?? '[]')
 
-  const handleFilter = () => {
     let filteredRecipes: Recipes[] = [...recipes]
+
+    if (todas) {
+      filteredRecipes = recipes
+      setRecipes(filteredRecipes)
+      return
+    }
 
     if (semLeite) {
       filteredRecipes = filteredRecipes.filter((recipe) => !recipe.lactose)
@@ -31,10 +37,6 @@ export function Filter({ recipes, setRecipes }: FilterProps) {
 
     if (semGluten) {
       filteredRecipes = filteredRecipes.filter((recipe) => !recipe.gluten)
-    }
-
-    if (todas) {
-      filteredRecipes = JSON.parse(localStorageData ?? '[]')
     }
 
     setRecipes(filteredRecipes)

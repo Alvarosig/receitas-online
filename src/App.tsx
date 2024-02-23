@@ -47,7 +47,9 @@ export function App() {
         <button type="button" className={style.button} onClick={openModal} />
       </div>
 
-      {isOpen && <AddReceipt toggleModal={openModal} onAddRecipe={addRecipe} />}
+      {isOpen && (
+        <AddReceipt toggleModal={openModal} onSubmitForm={addRecipe} />
+      )}
     </>
   )
 }

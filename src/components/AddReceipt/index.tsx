@@ -13,10 +13,17 @@ interface DataType {
 
 interface AddReceiptProps {
   toggleModal: () => void
-  onAddRecipe: (newRecipe: Recipes) => void
+  onSubmitForm: (newRecipe: Recipes) => void
+  onDeleteItem?: (id: string) => void
+  recipe?: Recipes
 }
 
-export function AddReceipt({ toggleModal, onAddRecipe }: AddReceiptProps) {
+export function AddReceipt({
+  toggleModal,
+  onSubmitForm,
+  recipe,
+  onDeleteItem,
+}: AddReceiptProps) {
   const {
     register,
     handleSubmit,
@@ -24,17 +31,17 @@ export function AddReceipt({ toggleModal, onAddRecipe }: AddReceiptProps) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      nome: '',
-      ingredientes: '',
-      preparo: '',
-      lactose: false,
-      gluten: false,
+      nome: recipe?.nome ?? '',
+      ingredientes: recipe?.ingredientes ?? '',
+      preparo: recipe?.preparo ?? '',
+      lactose: recipe?.lactose ?? false,
+      gluten: recipe?.gluten ?? false,
     },
   })
 
   function onSubmit(data: DataType) {
     const newRecipe = {
-      id: crypto.randomUUID(),
+      id: crypto.randomUUID() as string,
       nome: data.nome,
       ingredientes: data.ingredientes,
       preparo: data.preparo,
@@ -42,7 +49,11 @@ export function AddReceipt({ toggleModal, onAddRecipe }: AddReceiptProps) {
       gluten: data.gluten,
     }
 
-    onAddRecipe(newRecipe)
+    if (recipe) {
+      newRecipe.id = recipe.id
+    }
+
+    onSubmitForm(newRecipe)
 
     reset()
     toggleModal()
@@ -51,7 +62,7 @@ export function AddReceipt({ toggleModal, onAddRecipe }: AddReceiptProps) {
   return (
     <div className={style.addReceipt}>
       <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
-        <h2>Adicionar receita</h2>
+        {recipe ? <h2>Editar Receita</h2> : <h2>Adicionar receita</h2>}
 
         <div className={style.formWrapper}>
           <div className={style.inputGroup}>
@@ -100,7 +111,19 @@ export function AddReceipt({ toggleModal, onAddRecipe }: AddReceiptProps) {
           </div>
         </div>
 
-        <button type="submit">Inserir</button>
+        {recipe ? (
+          <>
+            <button type="submit">Alterar</button>
+            <button
+              type="button"
+              onClick={() => !!onDeleteItem && onDeleteItem(recipe?.id)}
+            >
+              Excluir
+            </button>
+          </>
+        ) : (
+          <button type="submit">Inserir</button>
+        )}
         <img src={cook} alt="" />
       </form>
     </div>

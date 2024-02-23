@@ -8,8 +8,8 @@
   gap: 1rem
 }
 
-.receipts div {
-  margin: 2rem;
+.container {
+  padding: 2rem;
 }
 
 .receipts div h2 {
