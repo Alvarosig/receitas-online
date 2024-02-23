@@ -112,7 +112,7 @@ export function AddReceipt({
         </div>
 
         {recipe ? (
-          <>
+          <div className={style.buttons}>
             <button type="submit">Alterar</button>
             <button
               type="button"
@@ -120,9 +120,11 @@ export function AddReceipt({
             >
               Excluir
             </button>
-          </>
+          </div>
         ) : (
-          <button type="submit">Inserir</button>
+          <div className={style.buttons}>
+            <button type="submit">Inserir</button>
+          </div>
         )}
         <img src={cook} alt="" />
       </form>
